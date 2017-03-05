@@ -92,4 +92,17 @@ public class FileController {
         String url = fileService.downloadFile(name, (String) httpSession.getAttribute("name"));
         return "redirect:" + url;
     }
+
+
+    @RequestMapping(value = "/funBlog/shareFile", method = RequestMethod.GET)
+    public String shareFile() {
+        return "shareFile";
+    }
+
+
+    @RequestMapping(value = "/funBlog/shareFile", method = RequestMethod.POST)
+    public String shareFile(@RequestParam String username,@RequestParam("name") String filename, HttpSession httpSession) {
+        fileService.shareFile(filename,(String) httpSession.getAttribute("name"),username);
+        return "redirect:/funBlog";
+    }
 }

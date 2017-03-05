@@ -16,4 +16,6 @@ public interface FileService {
 
     String downloadFile(String fileName, String userName);
 
+    void shareFile(String fileName, String userName, String userForSharingName);
+
 }

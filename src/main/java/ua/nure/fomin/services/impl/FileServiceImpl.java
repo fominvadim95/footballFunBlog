@@ -2,15 +2,15 @@ package ua.nure.fomin.services.impl;
 
 import com.backendless.Backendless;
 import com.backendless.BackendlessCollection;
+import com.backendless.BackendlessUser;
 import com.backendless.files.FileInfo;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.nure.fomin.services.FileService;
+import ua.nure.fomin.services.UserService;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.*;
 
 @Service
@@ -21,6 +21,9 @@ public class FileServiceImpl implements FileService {
     private static final String SHARED_FOLDER = "shared_with_me";
 
     private static final String TOMCAT_ROOT = "files";
+
+    @Autowired
+    private UserService userService;
 
     public FileServiceImpl() {
     }
@@ -106,7 +109,28 @@ public class FileServiceImpl implements FileService {
     public String downloadFile(String fileName, String userName) {
         File workDirectory = new File(PATH + "/" + userName);
         String url = PATH + "/" + search(fileName, workDirectory).getURL();
+        if (url.contains(SHARED_FOLDER)) {
+            File file = new File(TOMCAT_ROOT + "/" + fileName);
+            url = readUrl(file);
+        }
         return url;
+    }
+
+    @Override
+    public void shareFile(String fileName, String userName, String userForSharingName) {
+        try {
+            BackendlessUser user = userService.find(userForSharingName);
+            if (!user.getProperties().isEmpty()) {
+                File workDirectory = new File(PATH + "/" + userName);
+                String srcUrl = PATH + "/" + search(fileName, workDirectory).getURL();
+                String destUrl = userForSharingName + "/" + SHARED_FOLDER;
+                File file = new File(TOMCAT_ROOT + "/" + userName + ".txt");
+                writeUrl(file, srcUrl);
+                Backendless.Files.upload(file, destUrl);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -137,6 +161,29 @@ public class FileServiceImpl implements FileService {
         }
 
         return new FileInfo();
+    }
+
+    private void writeUrl(File file, String url) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write(url);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private String readUrl(File file) {
+        String url = null;
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            url = reader.readLine();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return url;
     }
 
 }

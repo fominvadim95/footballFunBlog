@@ -11,6 +11,8 @@ import ua.nure.fomin.services.FileService;
 import ua.nure.fomin.services.UserService;
 
 import java.io.*;
+import java.net.URI;
+import java.net.URL;
 import java.util.*;
 
 @Service
@@ -66,14 +68,27 @@ public class FileServiceImpl implements FileService {
     @Override
     public Map<String, String> getFiles(String folderName, String userName) {
         Map<String, String> files = new LinkedHashMap<>();
-        File workDirectory = new File(PATH + "/" + userName);
-        String folderUrl = search(folderName, workDirectory).getURL();
-        BackendlessCollection<FileInfo> collection = Backendless.Files.listing(folderUrl);
-        for (FileInfo info : collection.getData()) {
-            String url = PATH + "/" + info.getURL();
-            if (!new File(url).isDirectory()) {
-                files.put(info.getName(), url);
+        try {
+            File workDirectory = new File(PATH + "/" + userName);
+            String folderUrl = search(folderName, workDirectory).getURL();
+            BackendlessCollection<FileInfo> collection = Backendless.Files.listing(folderUrl);
+            if (folderUrl.contains(SHARED_FOLDER)) {
+                for (FileInfo info : collection.getData()) {
+                    File file = new File(TOMCAT_ROOT + "/" + info.getName());
+                    String path = readUrl(file);
+                    String[] mass = path.split("/");
+                    files.put(mass[mass.length - 1], path);
+                }
+            } else {
+                for (FileInfo info : collection.getData()) {
+                    String url = PATH + "/" + info.getURL();
+                    if (!new File(url).isDirectory()) {
+                        files.put(info.getName(), url);
+                    }
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return files;
@@ -124,7 +139,7 @@ public class FileServiceImpl implements FileService {
                 File workDirectory = new File(PATH + "/" + userName);
                 String srcUrl = PATH + "/" + search(fileName, workDirectory).getURL();
                 String destUrl = userForSharingName + "/" + SHARED_FOLDER;
-                File file = new File(TOMCAT_ROOT + "/" + userName + ".txt");
+                File file = new File(TOMCAT_ROOT + "/" + fileName);
                 writeUrl(file, srcUrl);
                 Backendless.Files.upload(file, destUrl);
             }

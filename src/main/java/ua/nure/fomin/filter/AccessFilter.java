@@ -15,7 +15,7 @@ public class AccessFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        if (((HttpServletRequest) servletRequest).getSession().getAttribute("isAuthorize") == null) {
+        if (((HttpServletRequest) servletRequest).getSession().getAttribute("name") == null) {
             ((HttpServletResponse) servletResponse).sendRedirect("/funBlog/signIn");
         } else {
             filterChain.doFilter(servletRequest, servletResponse);

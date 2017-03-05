@@ -59,7 +59,7 @@ public class UserController {
         if (!userService.signIn(user)) {
             return "redirect:/funBlog/error";
         }
-        session.setAttribute("isAuthorize", true);
+        session.setAttribute("name", user.getName());
         return "redirect:/funBlog";
     }
 
@@ -68,7 +68,7 @@ public class UserController {
         if (!userService.signUp(user)) {
             return "redirect:/funBlog/error";
         }
-        session.setAttribute("isAuthorize", true);
+        session.setAttribute("name", user.getName());
         return "redirect:/funBlog";
     }
 

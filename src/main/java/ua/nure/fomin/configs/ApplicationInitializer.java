@@ -20,11 +20,13 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 
     private static final String LOCATION = "ua.nure.fomin.configs";
 
+    private static final String[] URL_PATTERNS = new String[]{"/funBlog","/funBlog/createFolder"};
+
 
     public void onStartup(ServletContext servletContext) throws ServletException {
         WebApplicationContext context = getContext();
         servletContext.addListener(new ContextLoaderListener(context));
-        servletContext.addFilter("filter", AccessFilter.class).addMappingForUrlPatterns(null,false,"/funBlog");
+        servletContext.addFilter("filter", AccessFilter.class).addMappingForUrlPatterns(null,false,URL_PATTERNS);
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet(SERVLET, new DispatcherServlet(context));
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping(PATH);

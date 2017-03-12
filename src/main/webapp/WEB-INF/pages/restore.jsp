@@ -5,17 +5,25 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>Restore</title>
+    <style>
+        body {
+            background-color: #E0EEE0;
+        }
+        #name {
+            width: 250px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-    <h3>Welcome, Enter your login for password restoring</h3>
+    <h3>Enter your login for password restoring</h3>
     <form method="POST" action="/funBlog/restore">
         <div class="form-group">
             <label for="name">Login:</label>
             <input type="text" class="form-control" name="name" id="name" placeholder="Enter login"/>
         </div>
 
-        <button type="submit" class="btn btn-default" id="restore">Restore</button>
+        <button type="submit" class="btn btn-warning" id="restore">Restore</button>
     </form>
 </div>
 </body>

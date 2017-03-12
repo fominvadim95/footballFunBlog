@@ -5,6 +5,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>Upload file</title>
+    <style>
+        body {
+            background-color: #E0EEE0;
+        }
+        #name, #file {
+            width: 280px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -20,7 +28,7 @@
             <input type="file" class="form-control" name="file" id="file"/>
         </div>
 
-        <button type="submit" class="btn btn-default" id="restore">Upload</button>
+        <button type="submit" class="btn btn-primary" id="restore">Upload</button>
     </form>
 </div>
 </body>

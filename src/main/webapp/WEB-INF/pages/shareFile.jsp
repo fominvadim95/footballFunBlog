@@ -5,8 +5,43 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>Share file</title>
+    <style>
+        body {
+            background-color: #E0EEE0;
+        }
+        #name, #username {
+            width: 250px;
+        }
+    </style>
 </head>
 <body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/funBlog">Football Fun Blog</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Users to sharing <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">User 1</a></li>
+                    <li><a href="#">User 2</a></li>
+                    <li><a href="#">User 3</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav">
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Files to sharing <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">File 1</a></li>
+                    <li><a href="#">File 2</a></li>
+                    <li><a href="#">File 3</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 <div class="container">
     <h3>Enter file name</h3>
     <form method="POST" action="/funBlog/shareFile">
@@ -19,7 +54,7 @@
             <input type="text" class="form-control" name="name" id="name" placeholder="Enter file name"/>
         </div>
 
-        <button type="submit" class="btn btn-default" id="restore">Share</button>
+        <button type="submit" class="btn btn-primary" id="restore">Share</button>
     </form>
 </div>
 </body>

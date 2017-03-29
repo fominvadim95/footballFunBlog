@@ -26,8 +26,8 @@
     <h3>Enter folder name</h3>
     <form method="POST" action="/funBlog/createFolder">
         <div class="form-group">
-            <label for="name">Folder name:</label>
-            <input type="text" class="form-control" name="name" id="name" placeholder="Enter folder name"/>
+            <label for="folder">Folder name:</label>
+            <input type="text" class="form-control" name="name" id="folder" placeholder="Enter folder name"/>
         </div>
 
         <button type="submit" class="btn btn-primary" id="restore">Save</button>

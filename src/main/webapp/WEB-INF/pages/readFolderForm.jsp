@@ -35,31 +35,13 @@
     <h3>Enter folder name</h3>
     <form method="POST" action="/funBlog/readFolder">
         <div class="form-group">
-            <label for="name">Folder name:</label>
-            <input type="text" class="form-control" name="name" id="name" placeholder="Enter folder name"/>
+            <label for="folder">Folder name:</label>
+            <input type="text" class="form-control" name="name" id="folder" placeholder="Enter folder name"/>
         </div>
 
         <button type="submit" class="btn btn-primary" id="restore">Read</button>
     </form>
 </div>
-<script>
-    $.ajax({
-        type: 'GET',
-        url: '/funBlog/folders',
-        dataType: 'json',
-        async: true,
-        success: function (folders) {
-            var foldersNode = document.getElementById("folders");
-            for (var i = 0; i < folders.length; i++) {
-                var li = document.createElement("li");
-                var ref = document.createElement("a");
-                ref.setAttribute("href", "#");
-                ref.appendChild(document.createTextNode(folders[i]))
-                li.appendChild(ref);
-                foldersNode.appendChild(li);
-            }
-        }
-    });
-</script>
+<script src="/resources/js/folders.js"></script>
 </body>
 </html>

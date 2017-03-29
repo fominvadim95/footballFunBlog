@@ -22,9 +22,9 @@
                 <a class="navbar-brand" href="/funBlog">Football Fun Blog</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Files to uploading <span
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Folders to uploading <span
                         class="caret"></span></a>
-                    <ul class="dropdown-menu" id="files">
+                    <ul class="dropdown-menu" id="folders">
 
                     </ul>
                 </li>
@@ -46,24 +46,7 @@
         <button type="submit" class="btn btn-primary" id="restore">Upload</button>
     </form>
 </div>
-<script>
-    $.ajax({
-        type: 'GET',
-        url: '/funBlog/files',
-        dataType: 'json',
-        async: true,
-        success: function (files) {
-            var filesNode = document.getElementById("files");
-            for (var i = 0; i < files.length; i++) {
-                var li = document.createElement("li");
-                var ref = document.createElement("a");
-                ref.setAttribute("href", "#");
-                ref.appendChild(document.createTextNode(files[i]))
-                li.appendChild(ref);
-                filesNode.appendChild(li);
-            }
-        }
-    });
+<script src="/resources/js/folders.js">
 </script>
 </body>
 </html>

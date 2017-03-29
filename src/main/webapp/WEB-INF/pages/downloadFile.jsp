@@ -36,31 +36,13 @@
     <h3>Enter file name</h3>
     <form method="POST" action="/funBlog/downloadFile">
         <div class="form-group">
-            <label for="name">File name:</label>
-            <input type="text" class="form-control" name="name" id="name" placeholder="Enter file name"/>
+            <label for="file">File name:</label>
+            <input type="text" class="form-control" name="name" id="file" placeholder="Enter file name"/>
         </div>
 
         <button type="submit" class="btn btn-primary" id="restore">Download</button>
     </form>
 </div>
-<script>
-    $.ajax({
-        type: 'GET',
-        url: '/funBlog/files',
-        dataType: 'json',
-        async: true,
-        success: function (files) {
-            var filesNode = document.getElementById("files");
-            for (var i = 0; i < files.length; i++) {
-                var li = document.createElement("li");
-                var ref = document.createElement("a");
-                ref.setAttribute("href", "#");
-                ref.appendChild(document.createTextNode(files[i]))
-                li.appendChild(ref);
-                filesNode.appendChild(li);
-            }
-        }
-    });
-</script>
+<script src="/resources/js/files.js"></script>
 </body>
 </html>

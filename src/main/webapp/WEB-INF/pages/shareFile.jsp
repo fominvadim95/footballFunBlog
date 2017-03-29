@@ -49,50 +49,16 @@
             <input type="text" class="form-control" name="username" id="username" placeholder="Enter user name"/>
         </div>
         <div class="form-group">
-            <label for="name">File name:</label>
-            <input type="text" class="form-control" name="name" id="name" placeholder="Enter file name"/>
+            <label for="file">File name:</label>
+            <input type="text" class="form-control" name="name" id="file" placeholder="Enter file name"/>
         </div>
 
         <button type="submit" class="btn btn-primary" id="restore">Share</button>
     </form>
 </div>
-<script>
-    $.ajax({
-        type: 'GET',
-        url: '/funBlog/users',
-        dataType: 'json',
-        async: true,
-        success: function (users) {
-            var usersNode = document.getElementById("users");
-            for (var i = 0; i < users.length; i++) {
-                console.log(users[i]);
-                var li = document.createElement("li");
-                var ref = document.createElement("a");
-                ref.setAttribute("href","#");
-                ref.appendChild(document.createTextNode(users[i]))
-                li.appendChild(ref);
-                usersNode.appendChild(li);
-            }
-        }
-    });
-
-    $.ajax({
-        type: 'GET',
-        url: '/funBlog/files',
-        dataType: 'json',
-        async: true,
-        success: function (files) {
-            var filesNode = document.getElementById("files");
-            for (var i = 0; i < files.length; i++) {
-                var li = document.createElement("li");
-                var ref = document.createElement("a");
-                ref.setAttribute("href", "#");
-                ref.appendChild(document.createTextNode(files[i]))
-                li.appendChild(ref);
-                filesNode.appendChild(li);
-            }
-        }
-    });
+<script src="/resources/js/users.js">
+</script>
+<script src="/resources/js/files.js">
 </script>
 </body>
 </html>

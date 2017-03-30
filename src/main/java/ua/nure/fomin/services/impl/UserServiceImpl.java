@@ -5,10 +5,12 @@ import com.backendless.BackendlessUser;
 import com.backendless.persistence.BackendlessDataQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.nure.fomin.entities.Place;
 import ua.nure.fomin.entities.User;
 import ua.nure.fomin.services.FileService;
 import ua.nure.fomin.services.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

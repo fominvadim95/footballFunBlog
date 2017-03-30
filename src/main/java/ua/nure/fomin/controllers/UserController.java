@@ -1,10 +1,13 @@
 package ua.nure.fomin.controllers;
 
+import com.backendless.geo.GeoPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ua.nure.fomin.entities.Place;
 import ua.nure.fomin.entities.User;
+import ua.nure.fomin.services.PlaceService;
 import ua.nure.fomin.services.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -17,9 +20,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PlaceService placeService;
+
 
     @RequestMapping(value = "/funBlog", method = RequestMethod.GET)
     public String main(Model model) {
+        List<Place> places = placeService.getAll();
+        model.addAttribute("places", places);
         return "index";
     }
 
@@ -80,7 +88,7 @@ public class UserController {
 
     @RequestMapping(value = "/funBlog/users", method = RequestMethod.GET)
     @ResponseBody
-    public List<String> getAllUsers(){
+    public List<String> getAllUsers() {
         return userService.getAll();
     }
 }

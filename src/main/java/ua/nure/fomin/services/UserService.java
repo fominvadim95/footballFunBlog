@@ -1,6 +1,7 @@
 package ua.nure.fomin.services;
 
 import com.backendless.BackendlessUser;
+import com.backendless.geo.GeoPoint;
 import ua.nure.fomin.entities.User;
 
 import java.util.List;

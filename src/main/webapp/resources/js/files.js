@@ -14,13 +14,5 @@ $.ajax({
             li.appendChild(ref);
             filesNode.appendChild(li);
         }
-
-        var ref = window.location.href;
-        console.log(ref);
-        if (ref.indexOf("?") != -1) {
-            var text = ref.split("=")[1];
-            console.log(text);
-            $("#file").val(text);
-        }
     }
 });

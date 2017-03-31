@@ -42,7 +42,7 @@
     <div id="map" style="width: 1200px; height: 400px"></div>
     <div class="row">
         <div class="col-md-4">
-        <br/>
+            <br/>
             <form method="POST" action="/funBlog/createPlace">
                 <div class="form-group">
                     <input type="text" class="form-control" name="categoryName" id="categoryName"
@@ -59,7 +59,7 @@
         </div>
         <div class="col-md-4">
             <br/>
-            <form method="POST" action="/funBlog/findPlace">
+            <form method="POST" action="/funBlog/findPlaceByCategory">
                 <div class="form-group">
                     <input type="text" class="form-control" name="category" id="category" placeholder="Category name"/>
                 </div>
@@ -70,21 +70,20 @@
 
         <div class="col-md-4" id="places">
             <h2>Places</h2>
-            <c:forEach var="place" items="${places}" >
-                <div id="${place.city}" class="place">
-                    <p class="text-muted">Name: ${place.name}</p>
-                    <p class="text-muted">City: ${place.city}</p>
-                    <p class="text-muted">Description: ${place.description}</p>
-                    <a href="#" id="delete">Delete</a>
-                    <span class="ymaps-geolink">${place.city}</span>
+            <c:forEach var="place" items="${places}">
+                <div id="${place.getMetadata("place").city}" class="place">
+                    <p class="text-muted">Name: ${place.getMetadata("place").name}</p>
+                    <p class="text-muted">City: ${place.getMetadata("place").city}</p>
+                    <p class="text-muted">Description: ${place.getMetadata("place").description}</p>
+                    <a id="xCord" class="text-muted" style="display: none">${place.latitude}</a>
+                    <a id="yCord" class="text-muted" style="display: none">${place.longitude}</a>
+                    <form action = "/funBlog/deletePlace?city=${place.getMetadata("place").city}" method="POST">
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                    </form>
+                    <span class="ymaps-geolink">${place.getMetadata("place").city}</span>
+                    </form>
                 </div>
                 <br/>
-            </c:forEach>
-        </div>
-        <div id="cords">
-            <c:forEach var="point" items="${points}">
-                <p class="x">${point.latitude}</p>
-                <p classs="y">${point.longitude}</p>
             </c:forEach>
         </div>
     </div>
@@ -97,15 +96,6 @@
             zoom: 2
         });
 
-        var places = $(".places").children(".place");
-        for(var i=0; i<places.length;i++){
-            var x = places[i].children(".xCord");
-            var y = places[i].children(".yCord");
-            console.log("x :"+x);
-            var myPlacemark = new ymaps.Placemark([x, y]);
-            myMap.geoObjects.add(myPlacemark);
-        }
-
         myMap.events.add('click', function (e) {
             var coords = e.get('coords');
             console.log(coords[0]);
@@ -113,18 +103,15 @@
             $("#y").val(coords[1]);
         });
 
-        $("#delete").click(function (e) {
-            e.preventDefault();
-            var city = $(this).parent().attr("id");
-            console.log(city);
-            $.ajax({
-                url: "/funBlog/deletePlace", data: JSON.stringify(city),
-                contentType: "application/json", type: "POST", success: function () {
-                    $("#" + city).hide();
-                }
-            });
-
-        });
+        var places = document.getElementsByClassName("place");
+        for (var i = 0; i < places.length; i++) {
+            var x = places[i].children[3].text;
+            var y = places[i].children[4].text;
+            console.log(x);
+            console.log(y);
+            var myPlacemark = new ymaps.Placemark([x, y]);
+            myMap.geoObjects.add(myPlacemark);
+        }
     });
 </script>
 </body>

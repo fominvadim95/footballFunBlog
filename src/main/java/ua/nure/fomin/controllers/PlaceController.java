@@ -4,14 +4,17 @@ import com.backendless.geo.GeoPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import ua.nure.fomin.entities.Place;
 import ua.nure.fomin.services.PlaceService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class PlaceController {
@@ -33,19 +36,27 @@ public class PlaceController {
         place.setDescription(description);
         GeoPoint point = new GeoPoint(x, y);
         point.addCategory(category);
+        point.addMetadata("place", place);
         place.setPoint(point);
-        placeService.add(place, (String) request.getSession().getAttribute("name"));
+        placeService.add(point, (String) request.getSession().getAttribute("name"));
         return "redirect:/funBlog";
     }
 
 
-    @RequestMapping(value = "/funBlog/deletePlace", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String deletePlace(@RequestBody String city, HttpSession session) {
+    @RequestMapping(value = "/funBlog/deletePlace", method = RequestMethod.POST)
+    public String deletePlace(@RequestParam String city, HttpSession session) {
         Place place = new Place();
         place.setCity(city);
-        placeService.delete(place, (String) session.getAttribute("name"));
+        GeoPoint point = new GeoPoint();
+        point.addMetadata("place", place);
+        placeService.delete(point, (String) session.getAttribute("name"));
         return "redirect:/funBlog";
     }
 
 
+    @RequestMapping(value = "/funBlog/findPlaceByCategory", method = RequestMethod.POST)
+    public String findPlace(@RequestParam String category, Model model) {
+        model.addAttribute("places",placeService.findByCategory(category));
+        return "index";
+    }
 }

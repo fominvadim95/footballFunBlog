@@ -8,15 +8,15 @@ import java.util.List;
 
 public interface PlaceService {
 
-    void add(Place place, String userName);
+    void add(GeoPoint point, String userName);
 
-    void delete(Place place, String userName);
+    void delete(GeoPoint point, String userName);
 
-    List<Place> findByCategory(String category);
+    List<GeoPoint> findByCategory(String category);
 
-    List<Place> findByRadius(double radius, GeoPoint currentPoint);
+    List<GeoPoint> findByRadius(double radius, GeoPoint currentPoint);
 
-    List<Place> getAll();
+    List<GeoPoint> getAll();
 
 
 

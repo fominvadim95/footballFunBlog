@@ -26,7 +26,7 @@ public class UserController {
 
     @RequestMapping(value = "/funBlog", method = RequestMethod.GET)
     public String main(Model model) {
-        List<Place> places = placeService.getAll();
+        List<GeoPoint> places = placeService.getAll();
         model.addAttribute("places", places);
         return "index";
     }

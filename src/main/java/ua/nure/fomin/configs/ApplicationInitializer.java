@@ -7,6 +7,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import ua.nure.fomin.filter.AccessFilter;
+import ua.nure.fomin.listeners.SessionListener;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -29,6 +30,7 @@ public class ApplicationInitializer implements WebApplicationInitializer {
     public void onStartup(ServletContext servletContext) throws ServletException {
         WebApplicationContext context = getContext();
         servletContext.addListener(new ContextLoaderListener(context));
+        servletContext.addListener(new SessionListener());
         servletContext.addFilter("filter", AccessFilter.class).addMappingForUrlPatterns(null, false, URL_PATTERNS);
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet(SERVLET, new DispatcherServlet(context));
         dispatcher.setLoadOnStartup(1);

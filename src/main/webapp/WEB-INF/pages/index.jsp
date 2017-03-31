@@ -31,6 +31,8 @@
             <li><a href="/funBlog/uploadFile">Upload file</a></li>
             <li><a href="/funBlog/downloadFile">Download file</a></li>
             <li><a href="/funBlog/shareFile">Share file</a></li>
+            <li><a href="/funBlog/feedback">Feedback</a></li>
+            <li><a href="#" id="online">Online: 0</a></li>
         </ul>
     </div>
 </nav>
@@ -112,6 +114,23 @@
             var myPlacemark = new ymaps.Placemark([x, y]);
             myMap.geoObjects.add(myPlacemark);
         }
+
+
+        setInterval(function () {
+            $.ajax({
+                type: 'GET',
+                url: '/funBlog/statistics',
+                dataType: 'json',
+                async: true,
+                success: function (count) {
+                    var online = "Online: "+count;
+                    $("#online").text(online);
+
+
+                }
+            });
+
+        }, 60000)
     });
 </script>
 </body>

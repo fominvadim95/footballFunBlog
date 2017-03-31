@@ -2,21 +2,28 @@ package ua.nure.fomin.services.impl;
 
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
+import com.backendless.logging.Logger;
 import com.backendless.persistence.BackendlessDataQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.nure.fomin.entities.Place;
+import ua.nure.fomin.entities.Statistic;
 import ua.nure.fomin.entities.User;
 import ua.nure.fomin.services.FileService;
 import ua.nure.fomin.services.UserService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final String DEVELOPER_EMAIL = "vadym.fomin@nure.ua";
+
+    private Logger logger = Backendless.Logging.getLogger(UserServiceImpl.class);
 
     @Autowired
     private FileService fileService;
@@ -50,6 +57,7 @@ public class UserServiceImpl implements UserService {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("User not fount. Login: "+user.getName()+" Password: "+user.getPassword());
             return false;
         }
     }
@@ -82,5 +90,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<String> getAll() {
         return Backendless.Data.find(BackendlessUser.class,new BackendlessDataQuery()).getCurrentPage().stream().map(user->(String)user.getProperties().get("name")).collect(Collectors.toList());
+    }
+
+    @Override
+    public void sendMessage(String subject, String message) {
+        Backendless.Messaging.sendTextEmail(subject, message, Arrays.asList(DEVELOPER_EMAIL));
+    }
+
+    @Override
+    public int getStatistics() {
+        return Backendless.Data.find(Statistic.class, new BackendlessDataQuery()).getData().get(0).getUsersCount();
     }
 }

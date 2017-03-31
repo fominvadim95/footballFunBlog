@@ -19,4 +19,8 @@ public interface UserService {
 
     List<String> getAll();
 
+    void sendMessage(String subject, String message);
+
+    int getStatistics();
+
 }

@@ -5,10 +5,12 @@ import com.backendless.BackendlessUser;
 import com.backendless.geo.BackendlessGeoQuery;
 import com.backendless.geo.GeoCategory;
 import com.backendless.geo.GeoPoint;
+import com.backendless.logging.Logger;
 import com.backendless.persistence.BackendlessDataQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.nure.fomin.entities.Place;
+import ua.nure.fomin.services.FileService;
 import ua.nure.fomin.services.PlaceService;
 import ua.nure.fomin.services.UserService;
 
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 public class PlaceServiceImpl implements PlaceService {
 
     private static final String DEFAULT_CATEGORY = "geoservice_sample";
+
+    private Logger logger = Backendless.Logging.getLogger(PlaceServiceImpl.class);
 
     @Autowired
     private UserService service;
@@ -46,6 +50,7 @@ public class PlaceServiceImpl implements PlaceService {
         try {
             places = (List) user.getProperties().get("places");
         } catch (Exception e) {
+            logger.error("Geo point is not created");
             e.printStackTrace();
         } finally {
             if (places == null) {

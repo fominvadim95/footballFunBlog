@@ -10,6 +10,7 @@ import ua.nure.fomin.entities.User;
 import ua.nure.fomin.services.PlaceService;
 import ua.nure.fomin.services.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -90,5 +91,26 @@ public class UserController {
     @ResponseBody
     public List<String> getAllUsers() {
         return userService.getAll();
+    }
+
+
+    @RequestMapping(value = "/funBlog/feedback", method = RequestMethod.GET)
+    public String feedback(Model model) {
+        return "feedback";
+    }
+
+    @RequestMapping(value = "/funBlog/feedback", method = RequestMethod.POST)
+    public String feedback(HttpServletRequest request) {
+        String subject = request.getParameter("subject");
+        String message = request.getParameter("message");
+        userService.sendMessage(subject, message);
+        return "redirect:/funBlog";
+    }
+
+
+    @RequestMapping(value = "/funBlog/statistics", method = RequestMethod.GET)
+    @ResponseBody
+    public int getStatistic() {
+        return userService.getStatistics();
     }
 }

@@ -4,6 +4,7 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessCollection;
 import com.backendless.BackendlessUser;
 import com.backendless.files.FileInfo;
+import com.backendless.logging.Logger;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class FileServiceImpl implements FileService {
+
+    private Logger logger = Backendless.Logging.getLogger(FileServiceImpl.class);
 
     private static final String PATH = "https://api.backendless.com/BA37451B-0CD4-ECDE-FF9E-6A1E669E6100/V1/files";
 
@@ -36,6 +39,7 @@ public class FileServiceImpl implements FileService {
             File file = createDefaultFile();
             Backendless.Files.upload(file, userName + "/" + SHARED_FOLDER);
         } catch (Exception e) {
+            logger.error("Directory is not created");
             e.printStackTrace();
         }
     }
